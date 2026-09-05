@@ -1,0 +1,5064 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ULTIMATE GAME HUB</title>
+
+<style>
+*{
+ box-sizing:border-box;
+ -webkit-tap-highlight-color:transparent
+}
+
+html,body{
+ margin:0;
+ padding:0;
+ background:#070a0f;
+ color:#fff;
+ font-family:Arial,Helvetica,sans-serif;
+ min-height:100%;
+}
+
+body{
+ overflow-x:hidden;
+}
+
+button,input,select{
+ font:inherit;
+}
+
+button{
+ cursor:pointer;
+}
+
+:root{
+ --bg:#070a0f;
+ --panel:#10161f;
+ --panel2:#171f29;
+ --line:#293544;
+ --text:#fff;
+ --muted:#9ca9b9;
+ --blue:#4d9cff;
+ --green:#27d477;
+ --red:#ff5364;
+ --yellow:#ffc94d;
+}
+
+.app{
+ max-width:1700px;
+ margin:auto;
+ min-height:100vh;
+ padding-bottom:80px;
+}
+
+.top{
+ position:sticky;
+ top:0;
+ z-index:100;
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:10px 14px;
+ background:rgba(7,10,15,.95);
+ backdrop-filter:blur(15px);
+ border-bottom:1px solid var(--line);
+}
+
+.logo{
+ font-size:21px;
+ font-weight:900;
+ white-space:nowrap;
+}
+
+.menu{
+ display:none;
+ width:44px;
+ height:44px;
+ border:1px solid var(--line);
+ background:var(--panel2);
+ color:white;
+ border-radius:11px;
+}
+
+.stats{
+ margin-left:auto;
+ display:flex;
+ gap:7px;
+ overflow:auto;
+}
+
+.stat{
+ white-space:nowrap;
+ padding:8px 11px;
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:11px;
+ font-size:13px;
+}
+
+.layout{
+ display:grid;
+ grid-template-columns:245px 1fr;
+ gap:15px;
+ padding:15px;
+}
+
+.sidebar{
+ position:sticky;
+ top:70px;
+ height:max-content;
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:18px;
+ padding:9px;
+}
+
+.nav{
+ width:100%;
+ text-align:left;
+ border:0;
+ background:transparent;
+ color:#b9c5d4;
+ padding:11px;
+ border-radius:10px;
+ margin-bottom:3px;
+}
+
+.nav:hover,
+.nav.active{
+ background:var(--panel2);
+ color:#fff;
+}
+
+.hero{
+ background:
+ linear-gradient(135deg,#111d2d,#0d131b);
+ border:1px solid var(--line);
+ border-radius:23px;
+ padding:25px;
+ margin-bottom:14px;
+}
+
+.hero h1{
+ margin:0 0 9px;
+ font-size:clamp(30px,5vw,55px);
+}
+
+.hero p{
+ color:var(--muted);
+ line-height:1.55;
+ margin:0;
+}
+
+.search{
+ width:100%;
+ background:var(--panel);
+ color:#fff;
+ border:1px solid var(--line);
+ border-radius:13px;
+ padding:14px;
+ outline:none;
+ margin-bottom:10px;
+}
+
+.filters{
+ display:flex;
+ gap:7px;
+ overflow:auto;
+ padding-bottom:11px;
+}
+
+.filter{
+ white-space:nowrap;
+ background:var(--panel);
+ color:#b9c5d4;
+ border:1px solid var(--line);
+ border-radius:20px;
+ padding:9px 14px;
+}
+
+.filter.active{
+ background:var(--blue);
+ border-color:var(--blue);
+ color:#fff;
+}
+
+.games{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+ gap:9px;
+}
+
+.game{
+ min-height:165px;
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:17px;
+ padding:15px;
+ display:flex;
+ flex-direction:column;
+ transition:.15s;
+}
+
+.game:hover{
+ transform:translateY(-2px);
+ border-color:#5a718c;
+}
+
+.game:active{
+ transform:scale(.98);
+}
+
+.gameIcon{
+ font-size:37px;
+}
+
+.gameName{
+ font-size:16px;
+ font-weight:900;
+ margin-top:8px;
+}
+
+.gameDesc{
+ font-size:12px;
+ color:var(--muted);
+ line-height:1.4;
+ margin-top:5px;
+}
+
+.gameTag{
+ color:#78b4ff;
+ font-size:12px;
+ margin-top:auto;
+ padding-top:12px;
+}
+
+.screen{
+ display:none;
+}
+
+.screen.active{
+ display:block;
+}
+
+.back{
+ background:var(--panel);
+ color:#fff;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:11px 15px;
+ margin-bottom:10px;
+}
+
+.panel{
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:20px;
+ padding:20px;
+}
+
+.panel h2{
+ margin-top:0;
+}
+
+.cards{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:9px;
+}
+
+.card{
+ background:var(--panel2);
+ border:1px solid var(--line);
+ border-radius:14px;
+ padding:14px;
+}
+
+.actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-top:14px;
+}
+
+.btn{
+ border:0;
+ border-radius:12px;
+ padding:12px 16px;
+ background:var(--blue);
+ color:#fff;
+ font-weight:800;
+}
+
+.btn.green{
+ background:#16874d;
+}
+
+.btn.red{
+ background:#a72f3e;
+}
+
+.btn.yellow{
+ background:#a47708;
+}
+
+.btn.dark{
+ background:var(--panel2);
+ border:1px solid var(--line);
+}
+
+.msg{
+ margin-top:13px;
+ padding:12px;
+ background:var(--panel2);
+ border-radius:12px;
+ color:#dbe4ef;
+ line-height:1.5;
+}
+
+.big{
+ font-size:44px;
+ font-weight:900;
+ margin:15px 0;
+}
+
+.board{
+ display:grid;
+ gap:3px;
+ width:min(94vw,620px);
+ margin:15px auto;
+}
+
+.cell{
+ aspect-ratio:1;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:#142131;
+ border:1px solid #34475d;
+ border-radius:4px;
+ cursor:pointer;
+ user-select:none;
+ font-size:clamp(11px,3vw,22px);
+}
+
+.cell:hover{
+ background:#1b3047;
+}
+
+.farm{
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ gap:7px;
+ margin-top:14px;
+}
+
+.plot{
+ aspect-ratio:1;
+ background:#18291e;
+ border:2px solid #315139;
+ border-radius:12px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:31px;
+ cursor:pointer;
+}
+
+.grid3{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+}
+
+.grid2{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:9px;
+}
+
+.targetArea{
+ height:330px;
+ position:relative;
+ overflow:hidden;
+ background:#090d13;
+ border:1px solid var(--line);
+ border-radius:15px;
+ margin-top:12px;
+}
+
+.target{
+ position:absolute;
+ font-size:43px;
+ cursor:pointer;
+}
+
+.race{
+ height:270px;
+ position:relative;
+ overflow:hidden;
+ border:2px solid #4a5665;
+ border-radius:15px;
+ background:#242930;
+}
+
+.car{
+ position:absolute;
+ font-size:42px;
+ transition:.3s;
+}
+
+.car1{top:55px}
+.car2{top:165px}
+
+.progress{
+ height:12px;
+ background:#242d38;
+ border-radius:20px;
+ overflow:hidden;
+}
+
+.progress i{
+ display:block;
+ height:100%;
+ background:var(--blue);
+ width:0%;
+}
+
+.shop{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+}
+
+.mini{
+ background:var(--panel2);
+ border:1px solid var(--line);
+ border-radius:14px;
+ padding:14px;
+}
+
+.log{
+ background:#090d13;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:10px;
+ max-height:220px;
+ overflow:auto;
+ font-family:monospace;
+ font-size:12px;
+ line-height:1.6;
+}
+
+.puzzle{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ width:min(94vw,430px);
+ margin:15px auto;
+ gap:5px;
+}
+
+.puz{
+ aspect-ratio:1;
+ background:#273546;
+ border-radius:8px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:25px;
+ font-weight:900;
+ cursor:pointer;
+}
+
+.world{
+ text-align:center;
+ padding:30px;
+}
+
+.worldIcon{
+ font-size:75px;
+}
+
+.worldTitle{
+ font-size:31px;
+ font-weight:900;
+ margin:12px;
+}
+
+.toast{
+ position:fixed;
+ left:50%;
+ bottom:20px;
+ z-index:1000;
+ transform:translate(-50%,120px);
+ background:#fff;
+ color:#111;
+ padding:12px 17px;
+ border-radius:12px;
+ font-weight:900;
+ transition:.2s;
+}
+
+.toast.show{
+ transform:translate(-50%,0);
+}
+
+@media(max-width:850px){
+
+ .layout{
+  grid-template-columns:1fr;
+  padding:9px;
+ }
+
+ .sidebar{
+  display:none;
+  position:fixed;
+  z-index:200;
+  left:9px;
+  right:9px;
+  top:65px;
+ }
+
+ .sidebar.open{
+  display:block;
+ }
+
+ .menu{
+  display:block;
+ }
+
+ .logo{
+  font-size:17px;
+ }
+
+ .games{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .game{
+  min-height:145px;
+  padding:12px;
+ }
+
+ .cards{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .grid3{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .shop{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+}
+
+@media(max-width:430px){
+
+ .stats .stat:nth-child(n+4){
+  display:none;
+ }
+
+ .games{
+  gap:6px;
+ }
+
+ .game{
+  min-height:140px;
+ }
+
+ .gameName{
+  font-size:14px;
+ }
+
+ .gameDesc{
+  font-size:11px;
+ }
+
+ .grid2,
+ .grid3,
+ .shop{
+  grid-template-columns:1fr;
+ }
+
+ .panel{
+  padding:14px;
+ }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="top">
+
+<button class="menu" onclick="toggleMenu()">☰</button>
+
+<div class="logo">
+🎮 ULTIMATE GAME HUB
+</div>
+
+<div class="stats">
+<div class="stat">💰 <b id="money">1000</b></div>
+<div class="stat">⭐ <b id="xp">0</b></div>
+<div class="stat">🏆 <b id="level">1</b></div>
+<div class="stat">🎮 <b id="played">0</b></div>
+</div>
+
+</header>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+
+<button class="nav active" onclick="home()">🏠 Главная</button>
+<button class="nav" onclick="profile()">👤 Профиль</button>
+
+<button class="nav" onclick="setFilter('all')">🎮 Все игры</button>
+<button class="nav" onclick="setFilter('sim')">🌾 Симуляторы</button>
+<button class="nav" onclick="setFilter('action')">⚔️ Экшен</button>
+<button class="nav" onclick="setFilter('board')">🧠 Настольные</button>
+<button class="nav" onclick="setFilter('strategy')">♟️ Стратегии</button>
+<button class="nav" onclick="setFilter('eco')">💰 Экономика</button>
+<button class="nav" onclick="setFilter('arcade')">🕹️ Аркады</button>
+
+<button class="nav" onclick="randomGame()">🎲 Случайная</button>
+<button class="nav" onclick="generator()">🌌 Генератор миров</button>
+
+<button class="nav" onclick="resetSave()">♻️ Сбросить прогресс</button>
+
+</aside>
+
+<main>
+
+<section class="screen active" id="homeScreen">
+
+<div class="hero">
+
+<h1>ULTIMATE GAME HUB</h1>
+
+<p>
+Огромный игровой центр в одном HTML-файле.
+Игры против ботов, одиночные режимы, экономика,
+симуляторы, стратегии, аркады, гонки,
+головоломки и процедурная генерация миров.
+</p>
+
+</div>
+
+<input
+class="search"
+id="search"
+placeholder="🔎 Найти игру..."
+oninput="renderGames()"
+>
+
+<div class="filters">
+
+<button class="filter active" onclick="setFilter('all',this)">
+Все
+</button>
+
+<button class="filter" onclick="setFilter('sim',this)">
+🌾 Симуляторы
+</button>
+
+<button class="filter" onclick="setFilter('action',this)">
+⚔️ Экшен
+</button>
+
+<button class="filter" onclick="setFilter('board',this)">
+🧠 Настольные
+</button>
+
+<button class="filter" onclick="setFilter('strategy',this)">
+♟️ Стратегии
+</button>
+
+<button class="filter" onclick="setFilter('eco',this)">
+💰 Экономика
+</button>
+
+<button class="filter" onclick="setFilter('arcade',this)">
+🕹️ Аркады
+</button>
+
+</div>
+
+<div class="games" id="games"></div>
+
+</section>
+
+
+<section class="screen" id="gameScreen">
+
+<button class="back" onclick="home()">
+← Назад
+</button>
+
+<div id="gameContent"></div>
+
+</section>
+
+
+<section class="screen" id="profileScreen">
+
+<button class="back" onclick="home()">
+← Назад
+</button>
+
+<div class="panel">
+
+<h2>👤 Профиль игрока</h2>
+
+<div class="cards">
+
+<div class="card">
+💰 Деньги
+<h2 id="pmoney">1000</h2>
+</div>
+
+<div class="card">
+⭐ Опыт
+<h2 id="pxp">0</h2>
+</div>
+
+<div class="card">
+🏆 Уровень
+<h2 id="plevel">1</h2>
+</div>
+
+<div class="card">
+🎮 Игр
+<h2 id="pplayed">0</h2>
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+🏅 Достижения
+
+<p>
+🎮 Первый запуск:
+<b id="a1">❌</b>
+</p>
+
+<p>
+💰 10 000 монет:
+<b id="a2">❌</b>
+</p>
+
+<p>
+🎮 100 игр:
+<b id="a3">❌</b>
+</p>
+
+<p>
+🏆 20 уровень:
+<b id="a4">❌</b>
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================================================
+   DATABASE
+========================================================= */
+
+const GAMES=[
+
+["farm","🌾","Ферма","Поля, растения, урожай","sim"],
+["farm2","🚜","Мега-ферма","Техника, животные и поля","sim"],
+["fishing","🎣","Рыбалка","Рыба разных редкостей","sim"],
+["mining","⛏️","Шахта","Руда, золото и алмазы","sim"],
+["restaurant","🍳","Ресторан","Готовь и обслуживай клиентов","sim"],
+["delivery","📬","Курьер","Доставляй посылки","sim"],
+["truck","🚚","Дальнобойщик","Грузы и дальние рейсы","sim"],
+["mechanic","🔧","Механик","Ремонт автомобилей","sim"],
+["city","🏙️","Город","Развивай город","strategy"],
+["business","🏢","Бизнес","Создай империю","eco"],
+
+["survival","🏕️","Выживание","Голод, вода, здоровье","action"],
+["zombie","🧟","Зомби-волна","Выживи против волн","action"],
+["arena","⚔️","Арена","Сражение против врагов","action"],
+["police","🚓","Погоня","Уйди от полиции","action"],
+["shooting","🎯","Тир","Попадай по мишеням","action"],
+["hunting","🏹","Охота","Охота на движущиеся цели","action"],
+["race","🏎️","Pocket Racing","Гонка против бота","action"],
+["rally","🏁","Ралли","Гонка с погодой","action"],
+
+["battleship","🚢","Морской бой","Против компьютерного флота","board"],
+["ttt","⭕","Крестики-нолики","Против бота","board"],
+["connect","🟡","Четыре в ряд","Против бота","board"],
+["blackjack","🃏","Блэкджек","Против дилера","board"],
+["poker","♠️","Покер","Против компьютерного игрока","board"],
+["cards","🂡","Карточная битва","Карты против бота","board"],
+["memory","🧠","Память","Найди пары","board"],
+["mines","💣","Сапёр","Безопасные клетки","board"],
+["puzzle","🔢","15 Puzzle","Собери числа","board"],
+["quiz","❓","Викторина","Вопросы и ответы","board"],
+["word","🔤","Слова","Угадай слово","board"],
+
+["checkers","♟️","Шашки","Против бота","strategy"],
+["tower","🏰","Башенная оборона","Защищай базу","strategy"],
+["conquest","🗺️","Завоевание","Захватывай территории","strategy"],
+["dots","🔵","Точки","Захватывай клетки","strategy"],
+["citywar","🏙️","Городская стратегия","Развивай население","strategy"],
+
+["auction","📦","Аукцион контейнеров","Покупай неизвестный груз","eco"],
+["shop","🏪","Магазин","Покупай и перепродавай","eco"],
+["stock","📈","Биржа","Торгуй акциями","eco"],
+["treasure","💎","Сокровища","Ищи клад","eco"],
+["casino","🎰","Казино","Игры на удачу","eco"],
+
+["snake","🐍","Змейка","Становись длиннее","arcade"],
+["breakout","🧱","Арканоид","Разбивай блоки","arcade"],
+["flappy","🐤","Птица","Пролетай препятствия","arcade"],
+["runner","🏃","Раннер","Убегай от препятствий","arcade"],
+["reaction","⚡","Реакция","Проверь скорость реакции","arcade"],
+["clicker","👆","Кликер","Развивай производство","arcade"],
+["platform","🦘","Платформер","Прыгай по платформам","arcade"],
+["generator","🌌","Генератор миров","Огромное количество вариантов","action"]
+
+];
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+let SAVE=JSON.parse(
+ localStorage.getItem("ULTIMATE_GAME_HUB")
+ || "null"
+) || {
+
+ money:1000,
+ xp:0,
+ level:1,
+ played:0,
+
+ fish:0,
+ ore:0,
+ business:0,
+ city:1,
+ clickPower:1,
+
+ farm:Array(15).fill(0)
+
+};
+
+
+function save(){
+
+ localStorage.setItem(
+  "ULTIMATE_GAME_HUB",
+  JSON.stringify(SAVE)
+ );
+
+ updateUI();
+
+}
+
+
+function updateUI(){
+
+ money.textContent=SAVE.money.toLocaleString();
+ xp.textContent=SAVE.xp.toLocaleString();
+ level.textContent=SAVE.level;
+ played.textContent=SAVE.played;
+
+ pmoney.textContent=SAVE.money.toLocaleString();
+ pxp.textContent=SAVE.xp.toLocaleString();
+ plevel.textContent=SAVE.level;
+ pplayed.textContent=SAVE.played;
+
+ a1.textContent=SAVE.played>=1?"✅":"❌";
+ a2.textContent=SAVE.money>=10000?"✅":"❌";
+ a3.textContent=SAVE.played>=100?"✅":"❌";
+ a4.textContent=SAVE.level>=20?"✅":"❌";
+
+}
+
+
+function reward(m,x,plays=1){
+
+ SAVE.money+=m;
+ SAVE.xp+=x;
+ SAVE.played+=plays;
+
+ while(SAVE.xp>=SAVE.level*100){
+
+  SAVE.xp-=SAVE.level*100;
+  SAVE.level++;
+
+  toast("🏆 Новый уровень: "+SAVE.level);
+
+ }
+
+ save();
+
+}
+
+
+function spend(n){
+
+ if(SAVE.money<n){
+
+  toast("❌ Недостаточно денег");
+  return false;
+
+ }
+
+ SAVE.money-=n;
+ save();
+
+ return true;
+
+}
+
+
+/* =========================================================
+   UI
+========================================================= */
+
+let currentFilter="all";
+
+function toggleMenu(){
+
+ sidebar.classList.toggle("open");
+
+}
+
+
+function home(){
+
+ document
+ .querySelectorAll(".screen")
+ .forEach(x=>x.classList.remove("active"));
+
+ homeScreen.classList.add("active");
+
+ renderGames();
+
+ scrollTo(0,0);
+
+}
+
+
+function profile(){
+
+ document
+ .querySelectorAll(".screen")
+ .forEach(x=>x.classList.remove("active"));
+
+ profileScreen.classList.add("active");
+
+ updateUI();
+
+}
+
+
+function setFilter(f,b){
+
+ currentFilter=f;
+
+ document
+ .querySelectorAll(".filter")
+ .forEach(x=>x.classList.remove("active"));
+
+ if(b)b.classList.add("active");
+
+ renderGames();
+
+}
+
+
+function renderGames(){
+
+ let q=(search.value||"").toLowerCase();
+
+ games.innerHTML="";
+
+ GAMES
+ .filter(g=>currentFilter==="all"||g[4]===currentFilter)
+ .filter(g=>
+  (g[2]+" "+g[3])
+  .toLowerCase()
+  .includes(q)
+ )
+ .forEach(g=>{
+
+  games.innerHTML+=`
+
+  <div class="game"
+       onclick="openGame('${g[0]}')">
+
+   <div class="gameIcon">${g[1]}</div>
+
+   <div class="gameName">
+    ${g[2]}
+   </div>
+
+   <div class="gameDesc">
+    ${g[3]}
+   </div>
+
+   <div class="gameTag">
+    ▶ Играть
+   </div>
+
+  </div>
+
+  `;
+
+ });
+
+}
+
+
+function toast(t){
+
+ const e=document.getElementById("toast");
+
+ e.textContent=t;
+
+ e.classList.add("show");
+
+ clearTimeout(window.toastTimer);
+
+ window.toastTimer=setTimeout(
+  ()=>e.classList.remove("show"),
+  1800
+ );
+
+}
+
+
+/* =========================================================
+   GAME ROUTER
+========================================================= */
+
+function openGame(id){
+
+ document
+ .querySelectorAll(".screen")
+ .forEach(x=>x.classList.remove("active"));
+
+ gameScreen.classList.add("active");
+
+ const F={
+
+  farm:gameFarm,
+  farm2:gameFarm2,
+  fishing:gameFishing,
+  mining:gameMining,
+  restaurant:gameRestaurant,
+  delivery:()=>jobGame("Курьер","📬",180),
+  truck:()=>jobGame("Дальнобойщик","🚚",450),
+  mechanic:()=>jobGame("Механик","🔧",300),
+
+  survival:gameSurvival,
+  zombie:gameZombie,
+  arena:gameArena,
+  police:gamePolice,
+  shooting:gameShooting,
+  hunting:gameHunting,
+  race:gameRace,
+  rally:gameRally,
+
+  battleship:gameBattleship,
+  ttt:gameTTT,
+  connect:gameConnect,
+  blackjack:gameBlackjack,
+  poker:gamePoker,
+  cards:gameCards,
+  memory:gameMemory,
+  mines:gameMines,
+  puzzle:gamePuzzle,
+  quiz:gameQuiz,
+  word:gameWord,
+
+  checkers:gameCheckers,
+  tower:gameTower,
+  conquest:gameConquest,
+  dots:gameDots,
+  citywar:gameCityWar,
+
+  auction:gameAuction,
+  shop:gameShop,
+  stock:gameStock,
+  treasure:gameTreasure,
+  casino:gameCasino,
+
+  snake:gameSnake,
+  breakout:gameBreakout,
+  flappy:gameFlappy,
+  runner:gameRunner,
+  reaction:gameReaction,
+  clicker:gameClicker,
+  platform:gamePlatform,
+
+  generator:generator
+
+ };
+
+ (F[id]||generator)();
+
+ scrollTo(0,0);
+
+}
+
+
+/* =========================================================
+   FARM
+========================================================= */
+
+function gameFarm(){
+
+ gameContent.innerHTML=`
+
+ <div class="panel">
+
+ <h2>🌾 Ферма</h2>
+
+ <p>
+ Посади растение и дождись урожая.
+ </p>
+
+ <div class="farm" id="farmGrid"></div>
+
+ <div class="msg" id="farmMsg">
+ Свободные поля.
+ </div>
+
+ </div>
+
+ `;
+
+ renderFarm();
+
+}
+
+
+function renderFarm(){
+
+ farmGrid.innerHTML=SAVE.farm.map(
+ (v,i)=>`
+
+ <div class="plot"
+      onclick="farmClick(${i})">
+
+ ${!v
+ ? "🟫"
+ : Date.now()-v>4000
+ ? "🌾"
+ : "🌱"}
+
+ </div>
+
+ `
+ ).join("");
+
+}
+
+
+function farmClick(i){
+
+ if(!SAVE.farm[i]){
+
+  SAVE.farm[i]=Date.now();
+
+  save();
+
+  renderFarm();
+
+  toast("🌱 Посажено");
+
+ }
+
+ else if(Date.now()-SAVE.farm[i]>4000){
+
+  SAVE.farm[i]=0;
+
+  reward(130,15);
+
+  renderFarm();
+
+  farmMsg.textContent=
+   "🌾 Урожай собран!";
+
+ }
+
+ else{
+
+  toast("⏳ Растение ещё растёт");
+
+ }
+
+}
+
+
+/* =========================================================
+   BIG FARM
+========================================================= */
+
+function gameFarm2(){
+
+ gameContent.innerHTML=`
+
+ <div class="panel">
+
+ <h2>🚜 Мега-ферма</h2>
+
+ <div class="cards">
+
+  <div class="card">
+   🌾 Поля
+   <h2>25</h2>
+  </div>
+
+  <div class="card">
+   🐄 Животные
+   <h2>${5+Math.floor(Math.random()*20)}</h2>
+  </div>
+
+  <div class="card">
+   🚜 Техника
+   <h2>7</h2>
+  </div>
+
+  <div class="card">
+   💰 Доход
+   <h2>+${500+Math.floor(Math.random()*500)}</h2>
+  </div>
+
+ </div>
+
+ <div class="actions">
+
+  <button class="btn green"
+   onclick="farmWork(220,18,'Пшеница')">
+   🌾 Пшеница
+  </button>
+
+  <button class="btn"
+   onclick="farmWork(280,22,'Кукуруза')">
+   🌽 Кукуруза
+  </button>
+
+  <button class="btn yellow"
+   onclick="farmWork(350,25,'Животные')">
+   🐄 Животные
+  </button>
+
+ </div>
+
+ <div class="msg" id="farm2Msg">
+ Начни работу.
+ </div>
+
+ </div>
+
+ `;
+
+}
+
+
+function farmWork(m,x,n){
+
+ reward(m,x);
+
+ farm2Msg.textContent=
+ `✅ ${n}: +${m} монет`;
+
+}
+
+
+/* =========================================================
+   FISHING
+========================================================= */
+
+function gameFishing(){
+
+ gameContent.innerHTML=`
+
+ <div class="panel">
+
+ <h2>🎣 Рыбалка</h2>
+
+ <div class="big">
+ 🐟 ${SAVE.fish}
+ </div>
+
+ <button class="btn"
+ onclick="castFish()">
+ 🎣 Закинуть удочку
+ </button>
+
+ <button class="btn green"
+ onclick="sellFish()">
+ 💰 Продать
+ </button>
+
+ <div class="msg" id="fishMsg">
+ Ждём поклёвку...
+ </div>
+
+ </div>
+
+ `;
+
+}
+
+
+function castFish(){
+
+ let r=Math.random();
+
+ let n=
+ r<.05?8:
+ r<.20?4:
+ r<.65?1:
+ 0;
+
+ if(n){
+
+  SAVE.fish+=n;
+
+  fishMsg.textContent=
+   `🐟 Поймано: ${n}`;
+
+  save();
+
+ }else{
+
+  fishMsg.textContent=
+   "🌊 Рыба ушла.";
+
+ }
+
+}
+
+
+function sellFish(){
+
+ if(!SAVE.fish){
+
+  toast("Нет рыбы");
+  return;
+
+ }
+
+ let n=SAVE.fish;
+
+ SAVE.fish=0;
+
+ reward(n*80,n*3);
+
+}
+
+
+/* =========================================================
+   MINING
+========================================================= */
+
+function gameMining(){
+
+ gameContent.innerHTML=`
+
+ <div class="panel">
+
+ <h2>⛏️ Шахта</h2>
+
+ <div class="big">
+ 💎 ${SAVE.ore}
+ </div>
+
+ <button class="btn"
+ onclick="mineHit()">
+ ⛏️ Ударить
+ </button>
+
+ <button class="btn yellow"
+ onclick="sellOre()">
+ 💰 Продать
+ </button>
+
+ <div class="msg" id="mineMsg">
+ Впереди порода.
+ </div>
+
+ </div>
+
+ `;
+
+}
+
+
+function mineHit(){
+
+ let n=
+ Math.random()<.04?10:
+ Math.random()<.15?4:
+ 1;
+
+ SAVE.ore+=n;
+
+ mineMsg.textContent=
+ `⛏️ Добыто: ${n}`;
+
+ save();
+
+}
+
+
+function sellOre(){
+
+ if(!SAVE.ore){
+
+  toast("Нет руды");
+  return;
+
+ }
+
+ let n=SAVE.ore;
+
+ SAVE.ore=0;
+
+ reward(n*60,n*2);
+
+}
+
+
+/* =========================================================
+   JOBS
+========================================================= */
+
+function jobGame(name,icon,pay){
+
+ gameContent.innerHTML=`
+
+ <div class="panel">
+
+ <h2>${icon} ${name}</h2>
+
+ <p>
+ Выполни работу и получи деньги.
+ </p>
+
+ <button class="btn"
+ onclick="doJob('${name}',${pay})">
+ ▶ Начать смену
+ </button>
+
+ <div class="msg" id="jobMsg">
+ Работа не начата.
+ </div>
+
+ </div>
+
+ `;
+
+}
+
+
+function doJob(name,pay){
+
+ let p=pay+
+ Math.floor(Math.random()*pay);
+
+ reward(p,Math.floor(p/10));
+
+ jobMsg.textContent=
+ `✅ ${name} выполнена. +${p} монет`;
+
+}
+
+
+/* =========================================================
+   RESTAURANT
+========================================================= */
+
+function gameRestaurant(){
+
+ gameContent.innerHTML=`
+
+ <div class="panel">
+
+ <h2>🍳 Ресторан</h2>
+
+ <div class="shop">
+
+  <div class="mini">
+   🍔 Бургер
+   <br><br>
+   <button class="btn"
+    onclick="cook(120,'Бургер')">
+    120
+   </button>
+  </div>
+
+  <div class="mini">
+   🍕 Пицца
+   <br><br>
+   <button class="btn"
+    onclick="cook(180,'Пицца')">
+    180
+   </button>
+  </div>
+
+  <div class="mini">
+   🍣 Суши
+   <br><br>
+   <button class="btn"
+    onclick="cook(260,'Суши')">
+    260
+   </button>
+  </div>
+
+ </div>
+
+ <div class="msg" id="restMsg">
+ Клиенты ждут.
+ </div>
+
+ </div>
+
+ `;
+
+}
+
+
+function cook(v,n){
+
+ reward(v,Math.floor(v/10));
+
+ restMsg.textContent=
+ `🍳 ${n} приготовлен. +${v}`;
+
+}
+
+
+/* =========================================================
+   SURVIVAL
+========================================================= */
+
+function gameSurvival(){
+
+ window.SV={
+  hp:100,
+  food:100,
+  water:100,
+  day:1
+ };
+
+ gameContent.innerHTML=`
+
+ <div class="panel">
+
+ <h2>🏕️ Выживание</h2>
+
+ <div class="cards">
+
+  <div class="card">
+   ❤️ Здоровье
+   <h2 id="svhp">100</h2>
+  </div>
+
+  <div class="card">
+   🍖 Еда
+   <h2 id="svfood">100</h2>
+  </div>
+
+  <div class="card">
+   💧 Вода
+   <h2 id="svwater">100</h2>
+  </div>
+
+  <div class="card">
+   📅 День
+   <h2 id="svday">1</h2>
+  </div>
+
+ </div>
+
+ <div class="actions">
+
+ <button class="btn"
+ onclick="surviveAction('food')">
+ 🍖 Поесть
+ </button>
+
+ <button class="btn"
+ onclick="surviveAction('water')">
+ 💧 Найти воду
+ </button>
+
+ <button class="btn green"
+ onclick="surviveAction('rest')">
+ 🔥 Отдохнуть
+ </button>
+
+ <button class="btn yellow"
+ onclick="surviveAction('hunt')">
+ 🏹 Охотиться
+ </button>
+
+ </div>
+
+ <div class="msg" id="svmsg">
+ Выживи как можно дольше.
+ </div>
+
+ </div>
+
+ `;
+
+}
+
+
+function surviveAction(a){
+
+ SV.day++;
+
+ SV.food-=8;
+ SV.water-=10;
+
+ if(a==="food")
+  SV.food=Math.min(100,SV.food+35);
+
+ if(a==="water")
+  SV.water=Math.min(100,SV.water+40);
+
+ if(a==="rest")
+  SV.hp=Math.min(100,SV.hp+18);
+
+ if(a==="hunt")
+  SV.food=Math.min(100,SV.food+45);
+
+ if(SV.food<=0||SV.water<=0)
+  SV.hp-=10;
+
+ svhp.textContent=SV.hp;
+ svfood.textContent=SV.food;
+ svwater.textContent=SV.water;
+ svday.textContent=SV.day;
+
+ svmsg.textContent=
+ SV.hp>0
+ ? "🌲 Ты продолжаешь выживать."
+ : "💀 Ты погиб.";
+
+ if(SV.hp>0)
+  reward(25,5);
+
+}
+
+
+/* =========================================================
+   ZOMBIES
+========================================================= */
+
+function gameZombie(){
+
+ window.Z={
+  wave:0,
+  hp:100
+ };
+
+ titleGame(
+  "🧟 Зомби-волна",
+  `
+  <div class="big">
+   Волна <span id="zw">0</span>
+  </div>
+
+  <div class="card">
+   ❤️ Здоровье:
+   <b id="zhp">100</b>
+  </div>
+
+  <div class="actions">
+
+   <button class="btn"
+    onclick="zombieAttack()">
+    🔫 Атаковать
+   </button>
+
+   <button class="btn green"
+    onclick="zombieHeal()">
+    ❤️ Лечиться
+   </button>
+
+  </div>
+
+  <div class="msg" id="zmsg">
+   Первая волна приближается.
+  </div>
+  `
+ );
+
+}
+
+
+function titleGame(t,body){
+
+ gameContent.innerHTML=
+ `<div class="panel">
+ <h2>${t}</h2>
+ ${body}
+ </div>`;
+
+}
+
+
+function zombieAttack(){
+
+ Z.wave++;
+
+ let hit=Math.random()<.72;
+
+ if(hit){
+
+  reward(80+Z.wave*20,10);
+
+  zmsg.textContent=
+   `💥 Волна ${Z.wave} уничтожена!`;
+
+ }else{
+
+  Z.hp-=10;
+
+  zmsg.textContent=
+   "🧟 Зомби нанесли урон.";
+
+ }
+
+ zw.textContent=Z.wave;
+ zhp.textContent=Z.hp;
+
+}
+
+
+function zombieHeal(){
+
+ Z.hp=Math.min(100,Z.hp+20);
+
+ zhp.textContent=Z.hp;
+
+}
+
+
+/* =========================================================
+   ARENA
+========================================================= */
+
+function gameArena(){
+
+ window.AR={
+  hp:100,
+  enemy:50+Math.floor(Math.random()*70)
+ };
+
+ titleGame(
+  "⚔️ Арена",
+  `
+  <div class="cards">
+
+   <div class="card">
+    ❤️ Ты
+    <h2 id="ahp">100</h2>
+   </div>
+
+   <div class="card">
+    👹 Бот
+    <h2 id="ehp">${AR.enemy}</h2>
+   </div>
+
+  </div>
+
+  <div class="actions">
+
+   <button class="btn"
+    onclick="arenaAttack()">
+    ⚔️ Атаковать
+   </button>
+
+   <button class="btn green"
+    onclick="arenaHeal()">
+    ❤️ Лечение
+   </button>
+
+  </div>
+
+  <div class="msg" id="amsg">
+   Бой начался.
+  </div>
+  `
+ );
+
+}
+
+
+function arenaAttack(){
+
+ let damage=8+Math.floor(Math.random()*16);
+
+ AR.enemy-=damage;
+
+ if(AR.enemy<=0){
+
+  AR.enemy=0;
+
+  ehp.textContent=0;
+
+  reward(400,35);
+
+  amsg.textContent=
+   "🏆 Победа на арене!";
+
+  return;
+
+ }
+
+ let enemyDamage=
+  5+Math.floor(Math.random()*13);
+
+ AR.hp-=enemyDamage;
+
+ ahp.textContent=AR.hp;
+ ehp.textContent=AR.enemy;
+
+ amsg.textContent=
+  `⚔️ Ты нанёс ${damage}, бот нанёс ${enemyDamage}`;
+
+}
+
+
+function arenaHeal(){
+
+ AR.hp=Math.min(100,AR.hp+18);
+
+ ahp.textContent=AR.hp;
+
+}
+
+
+/* =========================================================
+   POLICE
+========================================================= */
+
+function gamePolice(){
+
+ titleGame(
+  "🚓 Погоня",
+  `
+  <div class="big">
+   <span id="ptime">30</span> сек.
+  </div>
+
+  <button class="btn"
+   onclick="startPolice()">
+   🚓 Начать погоню
+  </button>
+
+  <div class="msg" id="pmsg">
+   Полиция ещё не рядом.
+  </div>
+  `
+ );
+
+}
+
+
+function startPolice(){
+
+ let t=30;
+
+ clearInterval(window.policeTimer);
+
+ policeTimer=setInterval(()=>{
+
+  t--;
+
+  ptime.textContent=t;
+
+  pmsg.textContent=
+   Math.random()<.15
+   ? "🚨 Полиция почти догнала!"
+   : "🏎️ Уходим от преследования...";
+
+  if(t<=0){
+
+   clearInterval(policeTimer);
+
+   reward(650,45);
+
+   pmsg.textContent=
+    "🏆 Ты ушёл от полиции!";
+
+  }
+
+ },1000);
+
+}
+
+
+/* =========================================================
+   SHOOTING
+========================================================= */
+
+function gameShooting(){
+
+ titleGame(
+  "🎯 Тир",
+  `
+  <p>
+   Попади по 10 мишеням.
+  </p>
+
+  <div class="targetArea"
+       id="shootArea"></div>
+
+  <div class="msg">
+   Попаданий:
+   <b id="shootHits">0</b>/10
+  </div>
+
+  <button class="btn"
+   onclick="startShooting()">
+   ▶ Начать
+  </button>
+  `
+ );
+
+}
+
+
+function startShooting(){
+
+ let hits=0;
+
+ clearInterval(window.shootTimer);
+
+ function spawn(){
+
+  shootArea.innerHTML="";
+
+  let t=document.createElement("div");
+
+  t.className="target";
+
+  t.textContent="🎯";
+
+  t.style.left=
+   Math.random()*85+"%";
+
+  t.style.top=
+   Math.random()*75+"%";
+
+  t.onclick=()=>{
+
+   hits++;
+
+   shootHits.textContent=hits;
+
+   if(hits>=10){
+
+    clearInterval(shootTimer);
+
+    shootArea.innerHTML="🏆";
+
+    reward(500,40);
+
+   }else{
+
+    spawn();
+
+   }
+
+  };
+
+  shootArea.appendChild(t);
+
+ }
+
+ spawn();
+
+ shootTimer=setInterval(
+  spawn,
+  1400
+ );
+
+}
+
+
+/* =========================================================
+   HUNT
+========================================================= */
+
+function gameHunting(){
+
+ titleGame(
+  "🏹 Охота",
+  `
+  <div class="targetArea"
+       id="huntArea"></div>
+
+  <div class="msg">
+   Попаданий:
+   <b id="huntHits">0</b>/8
+  </div>
+
+  <button class="btn"
+   onclick="startHunt()">
+   🏹 Начать
+  </button>
+  `
+ );
+
+}
+
+
+function startHunt(){
+
+ let h=0;
+
+ huntArea.innerHTML="";
+
+ function spawn(){
+
+  let t=document.createElement("div");
+
+  t.className="target";
+
+  t.textContent=
+   ["🦌","🐗","🐇"][Math.floor(Math.random()*3)];
+
+  t.style.left=
+   Math.random()*85+"%";
+
+  t.style.top=
+   Math.random()*75+"%";
+
+  t.onclick=()=>{
+
+   h++;
+
+   huntHits.textContent=h;
+
+   t.remove();
+
+   if(h>=8){
+
+    reward(600,45);
+
+    huntArea.innerHTML="🏆";
+
+   }else{
+
+    spawn();
+
+   }
+
+  };
+
+  huntArea.appendChild(t);
+
+ }
+
+ for(let i=0;i<3;i++)
+  spawn();
+
+}
+
+
+/* =========================================================
+   RACE
+========================================================= */
+
+function gameRace(){
+
+ window.RACE={
+  p:0,
+  e:0,
+  over:false
+ };
+
+ titleGame(
+  "🏎️ Pocket Racing",
+  `
+  <div class="race">
+
+   <div class="car car1"
+        id="playerCar">
+    🏎️
+   </div>
+
+   <div class="car car2"
+        id="enemyCar">
+    🚗
+   </div>
+
+  </div>
+
+  <div class="big">
+   <span id="rdist">0</span>
+   /1000 м
+  </div>
+
+  <button class="btn"
+   onclick="raceGo()">
+   🏁 Ускориться
+  </button>
+
+  <button class="btn dark"
+   onclick="gameRace()">
+   🔄 Новая гонка
+  </button>
+
+  <div class="msg" id="rmsg">
+   Первый до 1000 метров.
+  </div>
+  `
+ );
+
+}
+
+
+function raceGo(){
+
+ if(RACE.over)return;
+
+ RACE.p+=50+Math.floor(Math.random()*100);
+ RACE.e+=40+Math.floor(Math.random()*100);
+
+ rdist.textContent=Math.min(RACE.p,1000);
+
+ playerCar.style.left=
+ Math.min(RACE.p/1000*88,88)+"%";
+
+ enemyCar.style.left=
+ Math.min(RACE.e/1000*88,88)+"%";
+
+ if(RACE.p>=1000){
+
+  RACE.over=true;
+
+  reward(750,40);
+
+  rmsg.textContent=
+   "🏆 ПОБЕДА!";
+
+ }
+
+ else if(RACE.e>=1000){
+
+  RACE.over=true;
+
+  reward(20,5);
+
+  rmsg.textContent=
+   "💀 Бот выиграл.";
+
+ }
+
+ else{
+
+  rmsg.textContent=
+   `Соперник: ${Math.min(RACE.e,1000)} м`;
+
+ }
+
+}
+
+
+/* =========================================================
+   RALLY
+========================================================= */
+
+function gameRally(){
+
+ window.RALLY={
+  km:0,
+  fuel:100
+ };
+
+ titleGame(
+  "🏁 Ралли",
+  `
+  <div class="cards">
+
+   <div class="card">
+    🛣️ Дистанция
+    <h2 id="rkm">0</h2>
+   </div>
+
+   <div class="card">
+    ⛽ Топливо
+    <h2 id="rfuel">100</h2>
+   </div>
+
+   <div class="card">
+    🌦️ Погода
+    <h2 id="rweather">☀️</h2>
+   </div>
+
+  </div>
+
+  <button class="btn"
+   onclick="rallyDrive()">
+   🏎️ Ехать
+  </button>
+
+  <div class="msg" id="rallyMsg">
+   До финиша 100 км.
+  </div>
+  `
+ );
+
+}
+
+
+function rallyDrive(){
+
+ RALLY.km+=
+  5+Math.floor(Math.random()*16);
+
+ RALLY.fuel-=
+  2+Math.floor(Math.random()*5);
+
+ let weather=
+ [
+  "☀️ Солнце",
+  "🌧️ Дождь",
+  "🌫️ Туман",
+  "❄️ Снег"
+ ][Math.floor(Math.random()*4)];
+
+ rkm.textContent=RALLY.km;
+ rfuel.textContent=RALLY.fuel;
+ rweather.textContent=weather;
+
+ if(RALLY.km>=100){
+
+  reward(800,55);
+
+  rallyMsg.textContent=
+   "🏆 Ралли завершено!";
+
+ }
+
+ else if(RALLY.fuel<=0){
+
+  rallyMsg.textContent=
+   "⛽ Топливо закончилось.";
+
+ }
+
+}
+
+
+/* =========================================================
+   BATTLESHIP
+========================================================= */
+
+function gameBattleship(){
+
+ window.BS={
+  enemy:[],
+  shots:new Set(),
+  hits:0
+ };
+
+ while(BS.enemy.length<15){
+
+  let p=Math.floor(Math.random()*100);
+
+  if(!BS.enemy.includes(p))
+   BS.enemy.push(p);
+
+ }
+
+ gameContent.innerHTML=`
+
+ <div class="panel">
+
+ <h2>🚢 Морской бой</h2>
+
+ <p>
+ Найди 15 клеток флота противника.
+ </p>
+
+ <div class="board"
+      id="battleBoard"
+      style="grid-template-columns:repeat(10,1fr)">
+ </div>
+
+ <div class="msg" id="bsMsg">
+ Твой ход.
+ </div>
+
+ </div>
+
+ `;
+
+ for(let i=0;i<100;i++){
+
+  let c=document.createElement("div");
+
+  c.className="cell";
+
+  c.onclick=()=>battleShoot(i,c);
+
+  battleBoard.appendChild(c);
+
+ }
+
+}
+
+
+function battleShoot(i,c){
+
+ if(BS.shots.has(i))return;
+
+ BS.shots.add(i);
+
+ if(BS.enemy.includes(i)){
+
+  c.textContent="💥";
+
+  BS.hits++;
+
+  if(BS.hits>=15){
+
+   reward(700,60);
+
+   bsMsg.textContent=
+    "🏆 Флот уничтожен!";
+
+  }else{
+
+   bsMsg.textContent=
+    "💥 Попадание!";
+
+  }
+
+ }else{
+
+  c.textContent="🌊";
+
+  bsMsg.textContent=
+   "🌊 Мимо.";
+
+ }
+
+}
+
+
+/* =========================================================
+   TIC TAC TOE
+========================================================= */
+
+function gameTTT(){
+
+ window.TTT=
+ Array(9).fill("");
+
+ titleGame(
+  "⭕ Крестики-нолики",
+  `
+  <div class="board"
+       id="tttBoard"
+       style="
+       grid-template-columns:repeat(3,1fr);
+       max-width:360px">
+  </div>
+
+  <div class="msg" id="tttMsg">
+   Твой ход.
+  </div>
+  `
+ );
+
+ for(let i=0;i<9;i++){
+
+  let c=document.createElement("div");
+
+  c.className="cell";
+
+  c.onclick=()=>tttMove(i,c);
+
+  tttBoard.appendChild(c);
+
+ }
+
+}
+
+
+function tttMove(i,c){
+
+ if(TTT[i])return;
+
+ TTT[i]="X";
+ c.textContent="❌";
+
+ if(checkTTT("X")){
+
+  reward(200,20);
+
+  tttMsg.textContent="🏆 Победа!";
+
+  return;
+
+ }
+
+ let free=TTT
+ .map((x,i)=>x?null:i)
+ .filter(x=>x!==null);
+
+ if(!free.length){
+
+  tttMsg.textContent="🤝 Ничья";
+
+  return;
+
+ }
+
+ let ai=
+ free[Math.floor(Math.random()*free.length)];
+
+ TTT[ai]="O";
+
+ tttBoard.children[ai].textContent="⭕";
+
+ if(checkTTT("O"))
+  tttMsg.textContent=
+   "💀 Бот победил.";
+
+}
+
+
+function checkTTT(p){
+
+ return [
+
+ [0,1,2],
+ [3,4,5],
+ [6,7,8],
+ [0,3,6],
+ [1,4,7],
+ [2,5,8],
+ [0,4,8],
+ [2,4,6]
+
+ ].some(a=>
+  a.every(i=>TTT[i]===p)
+ );
+
+}
+
+
+/* =========================================================
+   CONNECT 4
+========================================================= */
+
+function gameConnect(){
+
+ window.C4=Array(42).fill("");
+
+ titleGame(
+  "🟡 Четыре в ряд",
+  `
+  <div id="c4Board"
+       class="board"
+       style="
+       grid-template-columns:repeat(7,1fr);
+       max-width:560px">
+  </div>
+
+  <div class="msg" id="c4Msg">
+   Твой ход.
+  </div>
+  `
+ );
+
+ renderC4();
+
+}
+
+
+function renderC4(){
+
+ c4Board.innerHTML="";
+
+ for(let i=0;i<42;i++){
+
+  let c=document.createElement("div");
+
+  c.className="cell";
+
+  c.textContent=
+   C4[i]==="X"
+   ?"🔴"
+   :C4[i]==="O"
+   ?"🟡"
+   :"";
+
+  c.onclick=()=>c4Move(i%7);
+
+  c4Board.appendChild(c);
+
+ }
+
+}
+
+
+function c4Move(col){
+
+ for(let r=5;r>=0;r--){
+
+  let i=r*7+col;
+
+  if(!C4[i]){
+
+   C4[i]="X";
+
+   renderC4();
+
+   if(checkC4("X")){
+
+    reward(300,25);
+
+    c4Msg.textContent="🏆 Победа!";
+
+    return;
+
+   }
+
+   setTimeout(()=>{
+
+    let cols=[
+     0,1,2,3,4,5,6
+    ].sort(()=>Math.random()-.5);
+
+    for(let cc of cols){
+
+     for(let rr=5;rr>=0;rr--){
+
+      let j=rr*7+cc;
+
+      if(!C4[j]){
+
+       C4[j]="O";
+
+       renderC4();
+
+       if(checkC4("O"))
+        c4Msg.textContent=
+         "💀 Бот победил.";
+
+       return;
+
+      }
+
+     }
+
+    }
+
+   },250);
+
+   return;
+
+  }
+
+ }
+
+}
+
+
+function checkC4(p){
+
+ for(let r=0;r<6;r++)
+ for(let c=0;c<7;c++){
+
+  let i=r*7+c;
+
+  if(c<4 &&
+   [0,1,2,3].every(k=>C4[i+k]===p))
+   return true;
+
+  if(r<3 &&
+   [0,1,2,3].every(k=>C4[i+k*7]===p))
+   return true;
+
+  if(r<3&&c<4 &&
+   [0,1,2,3].every(k=>C4[i+k*8]===p))
+   return true;
+
+  if(r<3&&c>=3 &&
+   [0,1,2,3].every(k=>C4[i+k*6]===p))
+   return true;
+
+ }
+
+ return false;
+
+}
+
+
+/* =========================================================
+   BLACKJACK
+========================================================= */
+
+function gameBlackjack(){
+
+ titleGame(
+  "🃏 Блэкджек",
+  `
+  <div class="big">
+   <span id="bj">?</span>
+  </div>
+
+  <button class="btn"
+   onclick="playBJ()">
+   🃏 Играть за 100
+  </button>
+
+  <div class="msg" id="bjMsg">
+   Набери ближе к 21.
+  </div>
+  `
+ );
+
+}
+
+
+function playBJ(){
+
+ if(!spend(100))return;
+
+ let p=10+Math.floor(Math.random()*12);
+ let d=10+Math.floor(Math.random()*12);
+
+ bj.textContent=p;
+
+ if(p<=21&&(p>d||d>21)){
+
+  reward(250,15);
+
+  bjMsg.textContent=
+   `🏆 Победа ${p}:${d}`;
+
+ }else{
+
+  bjMsg.textContent=
+   `💀 Проигрыш ${p}:${d}`;
+
+ }
+
+}
+
+
+/* =========================================================
+   POKER
+========================================================= */
+
+function gamePoker(){
+
+ titleGame(
+  "♠️ Покер-дуэль",
+  `
+  <div class="cards">
+
+   <div class="card">
+    👤 Твои карты
+    <h2 id="yourPoker">?</h2>
+   </div>
+
+   <div class="card">
+    🤖 Бот
+    <h2 id="botPoker">?</h2>
+   </div>
+
+  </div>
+
+  <button class="btn"
+   onclick="playPoker()">
+   ♠️ Раздать
+  </button>
+
+  <div class="msg" id="pokerMsg">
+   Начинай игру.
+  </div>
+  `
+ );
+
+}
+
+
+function playPoker(){
+
+ let p=1+Math.floor(Math.random()*100);
+ let b=1+Math.floor(Math.random()*100);
+
+ yourPoker.textContent=p;
+ botPoker.textContent=b;
+
+ if(p>b){
+
+  reward(350,25);
+
+  pokerMsg.textContent=
+   "🏆 Ты выиграл!";
+
+ }else{
+
+  pokerMsg.textContent=
+   "💀 Бот сильнее.";
+
+ }
+
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+function gameCards(){
+
+ titleGame(
+  "🂡 Карточная битва",
+  `
+  <div class="big">
+   🂡
+  </div>
+
+  <button class="btn"
+   onclick="cardBattle()">
+   Раздать карты
+  </button>
+
+  <div class="msg" id="cardMsg">
+   Кто сильнее?
+  </div>
+  `
+ );
+
+}
+
+
+function cardBattle(){
+
+ let p=1+Math.floor(Math.random()*13);
+ let b=1+Math.floor(Math.random()*13);
+
+ if(p>b){
+
+  reward(180,15);
+
+  cardMsg.textContent=
+   `🏆 ${p} против ${b}`;
+
+ }else{
+
+  cardMsg.textContent=
+   `💀 ${p} против ${b}`;
+
+ }
+
+}
+
+
+/* =========================================================
+   MEMORY
+========================================================= */
+
+function gameMemory(){
+
+ let values=[
+  "🍎","🍎",
+  "🍌","🍌",
+  "🍇","🍇",
+  "🍉","🍉",
+  "🍒","🍒",
+  "🥝","🥝",
+  "🍓","🍓",
+  "🍑","🍑"
+ ].sort(()=>Math.random()-.5);
+
+ window.MEM={
+  values,
+  opened:[],
+  found:0
+ };
+
+ titleGame(
+  "🧠 Память",
+  `
+  <div class="puzzle"
+       id="memoryBoard">
+  </div>
+
+  <div class="msg" id="memMsg">
+   Найди одинаковые пары.
+  </div>
+  `
+ );
+
+ values.forEach((v,i)=>{
+
+  let d=document.createElement("div");
+
+  d.className="puz";
+
+  d.textContent="❔";
+
+  d.onclick=()=>memoryClick(i,d);
+
+  memoryBoard.appendChild(d);
+
+ });
+
+}
+
+
+function memoryClick(i,d){
+
+ if(MEM.opened.some(x=>x.i===i))return;
+
+ d.textContent=MEM.values[i];
+
+ MEM.opened.push({
+  i,
+  d
+ });
+
+ if(MEM.opened.length===2){
+
+  let a=MEM.opened[0];
+  let b=MEM.opened[1];
+
+  if(MEM.values[a.i]===MEM.values[b.i]){
+
+   MEM.found++;
+
+   MEM.opened=[];
+
+   if(MEM.found===8){
+
+    reward(400,35);
+
+    memMsg.textContent=
+     "🏆 Все пары найдены!";
+
+   }
+
+  }else{
+
+   setTimeout(()=>{
+
+    a.d.textContent="❔";
+    b.d.textContent="❔";
+
+    MEM.opened=[];
+
+   },600);
+
+  }
+
+ }
+
+}
+
+
+/* =========================================================
+   MINESWEEPER
+========================================================= */
+
+function gameMines(){
+
+ let mines=[];
+
+ while(mines.length<15){
+
+  let n=Math.floor(Math.random()*100);
+
+  if(!mines.includes(n))
+   mines.push(n);
+
+ }
+
+ window.MINE={
+  mines,
+  opened:0
+ };
+
+ titleGame(
+  "💣 Сапёр",
+  `
+  <div class="board"
+       id="mineBoard"
+       style="
+       grid-template-columns:repeat(10,1fr)">
+  </div>
+
+  <div class="msg" id="mineMsg">
+   Найди безопасные клетки.
+  </div>
+  `
+ );
+
+ for(let i=0;i<100;i++){
+
+  let d=document.createElement("div");
+
+  d.className="cell";
+
+  d.onclick=()=>mineClick(i,d);
+
+  mineBoard.appendChild(d);
+
+ }
+
+}
+
+
+function mineClick(i,d){
+
+ if(d.textContent)return;
+
+ if(MINE.mines.includes(i)){
+
+  d.textContent="💣";
+
+  mineMsg.textContent=
+   "💥 Ты подорвался.";
+
+  return;
+
+ }
+
+ d.textContent=
+  Math.floor(Math.random()*5);
+
+ MINE.opened++;
+
+ if(MINE.opened>=50){
+
+  reward(600,50);
+
+  mineMsg.textContent=
+   "🏆 Поле очищено!";
+
+ }
+
+}
+
+
+/* =========================================================
+   PUZZLE 15
+========================================================= */
+
+function gamePuzzle(){
+
+ let nums=[
+  1,2,3,4,
+  5,6,7,8,
+  9,10,11,12,
+  13,14,15,""
+ ].sort(()=>Math.random()-.5);
+
+ window.PUZZLE=nums;
+
+ titleGame(
+  "🔢 15 Puzzle",
+  `
+  <div class="puzzle"
+       id="puzzleBoard">
+  </div>
+
+  <div class="msg" id="puzzleMsg">
+   Собери числа по порядку.
+  </div>
+  `
+ );
+
+ renderPuzzle();
+
+}
+
+
+function renderPuzzle(){
+
+ puzzleBoard.innerHTML="";
+
+ PUZZLE.forEach((n,i)=>{
+
+  let d=document.createElement("div");
+
+  d.className="puz";
+
+  d.textContent=n;
+
+  d.onclick=()=>puzzleMove(i);
+
+  puzzleBoard.appendChild(d);
+
+ });
+
+}
+
+
+function puzzleMove(i){
+
+ let e=PUZZLE.indexOf("");
+
+ let r=Math.floor(i/4);
+ let c=i%4;
+
+ let er=Math.floor(e/4);
+ let ec=e%4;
+
+ if(Math.abs(r-er)+Math.abs(c-ec)!==1)
+  return;
+
+ [PUZZLE[i],PUZZLE[e]]=
+ [PUZZLE[e],PUZZLE[i]];
+
+ renderPuzzle();
+
+ if(PUZZLE
+ .slice(0,15)
+ .every((x,i)=>x===i+1)){
+
+  reward(500,45);
+
+  puzzleMsg.textContent=
+   "🏆 Головоломка решена!";
+
+ }
+
+}
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+const QUESTIONS=[
+
+["Столица Германии?","Берлин",["Берлин","Мюнхен","Гамбург"]],
+
+["Сколько дней в неделе?","7",["5","7","9"]],
+
+["Сколько сторон у квадрата?","4",["3","4","5"]],
+
+["Какой океан самый большой?","Тихий",["Атлантический","Тихий","Индийский"]],
+
+["Сколько месяцев в году?","12",["10","12","14"]],
+
+["Какой металл обозначается Fe?","Железо",["Золото","Железо","Медь"]],
+
+["Сколько минут в часе?","60",["30","60","90"]]
+
+];
+
+
+function gameQuiz(){
+
+ window.Q={
+  n:0,
+  score:0
+ };
+
+ showQuestion();
+
+}
+
+
+function showQuestion(){
+
+ let q=QUESTIONS[Q.n%QUESTIONS.length];
+
+ gameContent.innerHTML=`
+
+ <div class="panel">
+
+ <h2>❓ Викторина</h2>
+
+ <h3>
+ ${q[0]}
+ </h3>
+
+ <div class="actions">
+
+ ${q[2].map(
+  x=>`
+  <button class="btn"
+   onclick="answerQuiz('${x.replace(/'/g,"")}')">
+   ${x}
+  </button>
+  `
+ ).join("")}
+
+ </div>
+
+ <div class="msg">
+ Вопрос ${Q.n+1}
+ <br>
+ Очки: ${Q.score}
+ </div>
+
+ </div>
+
+ `;
+
+}
+
+
+function answerQuiz(a){
+
+ let correct=
+ QUESTIONS[Q.n%QUESTIONS.length][1];
+
+ if(a===correct){
+
+  Q.score++;
+
+  reward(70,7);
+
+  toast("✅ Правильно");
+
+ }else{
+
+  toast("❌ Неправильно");
+
+ }
+
+ Q.n++;
+
+ if(Q.n>=10){
+
+  titleGame(
+   "🏆 Викторина завершена",
+   `
+   <div class="big">
+    ${Q.score}/10
+   </div>
+
+   <button class="btn"
+    onclick="gameQuiz()">
+    🔄 Ещё раз
+   </button>
+   `
+  );
+
+ }else{
+
+  showQuestion();
+
+ }
+
+}
+
+
+/* =========================================================
+   WORD
+========================================================= */
+
+function gameWord(){
+
+ let words=[
+  "МАШИНА",
+  "КОМПЬЮТЕР",
+  "ДЕРЕВО",
+  "КОРАБЛЬ",
+  "ФЕРМА",
+  "МОРОЗ",
+  "ПИЦЦА",
+  "ИГРА",
+  "ГОРОД"
+ ];
+
+ window.WORD=
+ words[Math.floor(Math.random()*words.length)];
+
+ titleGame(
+  "🔤 Слова",
+  `
+  <div class="big"
+       id="wordDisplay">
+   ${WORD.replace(/./g,"_ ")}
+  </div>
+
+  <input
+   id="wordInput"
+   class="search"
+   placeholder="Введи слово"
+  >
+
+  <button class="btn"
+   onclick="checkWord()">
+   Проверить
+  </button>
+
+  <div class="msg" id="wordMsg">
+   Угадай слово.
+  </div>
+  `
+ );
+
+}
+
+
+function checkWord(){
+
+ let a=wordInput.value.toUpperCase();
+
+ if(a===WORD){
+
+  reward(300,25);
+
+  wordMsg.textContent=
+   "🏆 Правильно!";
+
+ }else{
+
+  wordMsg.textContent=
+   "❌ Не угадал.";
+
+ }
+
+}
+
+
+/* =========================================================
+   CHECKERS
+========================================================= */
+
+function gameCheckers(){
+
+ let arr=Array(64).fill("");
+
+ for(let i=0;i<64;i++){
+
+  let r=Math.floor(i/8);
+  let c=i%8;
+
+  if((r+c)%2===1&&r<3)
+   arr[i]="⚫";
+
+  if((r+c)%2===1&&r>4)
+   arr[i]="⚪";
+
+ }
+
+ window.CHECK=arr;
+
+ titleGame(
+  "♟️ Шашки",
+  `
+  <div class="board"
+       id="checkBoard"
+       style="
+       grid-template-columns:repeat(8,1fr);
+       max-width:500px">
+  </div>
+
+  <div class="msg" id="checkMsg">
+   Выбери шашку.
+  </div>
+  `
+ );
+
+ renderCheckers();
+
+}
+
+
+function renderCheckers(){
+
+ checkBoard.innerHTML="";
+
+ CHECK.forEach((v,i)=>{
+
+  let d=document.createElement("div");
+
+  d.className="cell";
+
+  d.textContent=v;
+
+  d.onclick=()=>{
+
+   if(v==="⚪"){
+
+    d.textContent="⚪";
+
+    checkMsg.textContent=
+     "⚪ Твоя шашка выбрана.";
+
+   }
+
+  };
+
+  checkBoard.appendChild(d);
+
+ });
+
+}
+
+
+/* =========================================================
+   TOWER DEFENSE
+========================================================= */
+
+function gameTower(){
+
+ window.TD={
+  wave:0,
+  base:100,
+  towers:0
+ };
+
+ titleGame(
+  "🏰 Башенная оборона",
+  `
+  <div class="cards">
+
+   <div class="card">
+    🏰 База
+    <h2 id="tdbase">100</h2>
+   </div>
+
+   <div class="card">
+    🌊 Волна
+    <h2 id="tdwave">0</h2>
+   </div>
+
+   <div class="card">
+    🗼 Башни
+    <h2 id="tdtower">0</h2>
+   </div>
+
+  </div>
+
+  <div class="actions">
+
+   <button class="btn"
+    onclick="buildTower()">
+    🗼 Построить
+   </button>
+
+   <button class="btn green"
+    onclick="tdWave()">
+    ⚔️ Следующая волна
+   </button>
+
+  </div>
+
+  <div class="msg" id="tdmsg">
+   Построй защиту.
+  </div>
+  `
+ );
+
+}
+
+
+function buildTower(){
+
+ if(!spend(300))return;
+
+ TD.towers++;
+
+ tdtower.textContent=TD.towers;
+
+ tdmsg.textContent=
+  "🗼 Башня построена.";
+
+}
+
+
+function tdWave(){
+
+ TD.wave++;
+
+ let damage=
+ Math.max(
+  0,
+  20+TD.wave*4-TD.towers*8
+ );
+
+ TD.base-=damage;
+
+ tdwave.textContent=TD.wave;
+ tdbase.textContent=TD.base;
+
+ if(TD.base<=0){
+
+  tdmsg.textContent=
+   "💀 База уничтожена.";
+
+ }else{
+
+  reward(
+   100+TD.wave*30,
+   10
+  );
+
+  tdmsg.textContent=
+   `⚔️ Волна ${TD.wave} отражена.`;
+
+ }
+
+}
+
+
+/* =========================================================
+   CONQUEST
+========================================================= */
+
+function gameConquest(){
+
+ window.CON={
+  territory:1,
+  enemy:20
+ };
+
+ titleGame(
+  "🗺️ Завоевание",
+  `
+  <div class="cards">
+
+   <div class="card">
+    🏳️ Твои земли
+    <h2 id="myLand">1</h2>
+   </div>
+
+   <div class="card">
+    🤖 Враг
+    <h2 id="enemyLand">20</h2>
+   </div>
+
+  </div>
+
+  <button class="btn"
+   onclick="conquer()">
+   ⚔️ Атаковать
+  </button>
+
+  <div class="msg" id="conMsg">
+   Завоюй всю карту.
+  </div>
+  `
+ );
+
+}
+
+
+function conquer(){
+
+ let power=
+  5+Math.floor(Math.random()*8);
+
+ let enemyPower=
+  3+Math.floor(Math.random()*8);
+
+ if(power>=enemyPower){
+
+  CON.territory++;
+
+  CON.enemy--;
+
+  reward(100,10);
+
+  conMsg.textContent=
+   "🏳️ Территория захвачена.";
+
+ }else{
+
+  conMsg.textContent=
+   "💥 Атака отбита.";
+
+ }
+
+ myLand.textContent=CON.territory;
+ enemyLand.textContent=CON.enemy;
+
+ if(CON.enemy<=0){
+
+  reward(1000,80);
+
+  conMsg.textContent=
+   "🏆 Вся карта завоёвана!";
+
+ }
+
+}
+
+
+/* =========================================================
+   CITY WAR
+========================================================= */
+
+function gameCityWar(){
+
+ titleGame(
+  "🏙️ Городская стратегия",
+  `
+  <div class="cards">
+
+   <div class="card">
+    👥 Население
+    <h2 id="population">100</h2>
+   </div>
+
+   <div class="card">
+    🏭 Заводы
+    <h2 id="factories">1</h2>
+   </div>
+
+   <div class="card">
+    🏠 Дома
+    <h2 id="houses">5</h2>
+   </div>
+
+  </div>
+
+  <div class="actions">
+
+   <button class="btn"
+    onclick="buildHouse()">
+    🏠 Дом
+   </button>
+
+   <button class="btn yellow"
+    onclick="buildFactory()">
+    🏭 Завод
+   </button>
+
+   <button class="btn green"
+    onclick="cityIncome()">
+    💰 Собрать налоги
+   </button>
+
+  </div>
+
+  <div class="msg" id="cityMsg">
+   Развивай город.
+  </div>
+  `
+ );
+
+}
+
+
+let population=100;
+let factories=1;
+let houses=5;
+
+
+function buildHouse(){
+
+ if(!spend(500))return;
+
+ houses++;
+ population+=20;
+
+ updateCity();
+
+}
+
+
+function buildFactory(){
+
+ if(!spend(1500))return;
+
+ factories++;
+
+ updateCity();
+
+}
+
+
+function cityIncome(){
+
+ let income=
+  population*2+
+  factories*300;
+
+ reward(income,30);
+
+ cityMsg.textContent=
+  `💰 Город заработал ${income}`;
+
+}
+
+
+function updateCity(){
+
+ population.textContent=population;
+ factoriesEl=document.getElementById("factories");
+ factoriesEl.textContent=factories;
+ housesEl=document.getElementById("houses");
+ housesEl.textContent=houses;
+
+}
+
+
+/* =========================================================
+   DOTS
+========================================================= */
+
+function gameDots(){
+
+ window.DOTS=Array(25).fill("");
+
+ titleGame(
+  "🔵 Точки",
+  `
+  <div class="board"
+       id="dotsBoard"
+       style="
+       grid-template-columns:repeat(5,1fr);
+       max-width:420px">
+  </div>
+
+  <div class="msg" id="dotsMsg">
+   Захватывай клетки.
+  </div>
+  `
+ );
+
+ DOTS.forEach((x,i)=>{
+
+  let d=document.createElement("div");
+
+  d.className="cell";
+
+  d.onclick=()=>{
+
+   if(DOTS[i])return;
+
+   DOTS[i]=Math.random()<.5?"🔵":"🔴";
+
+   d.textContent=DOTS[i];
+
+   if(DOTS.filter(x=>x==="🔵").length>=8){
+
+    reward(300,25);
+
+    dotsMsg.textContent=
+     "🏆 Территория захвачена!";
+
+   }
+
+  };
+
+  dotsBoard.appendChild(d);
+
+ });
+
+}
+
+
+/* =========================================================
+   AUCTION
+========================================================= */
+
+function gameAuction(){
+
+ titleGame(
+  "📦 Аукцион контейнеров",
+  `
+  <div class="shop">
+
+   <div class="mini">
+    📦 Малый
+    <br><br>
+    <button class="btn yellow"
+     onclick="openContainer(250)">
+     250
+    </button>
+   </div>
+
+   <div class="mini">
+    📦 Средний
+    <br><br>
+    <button class="btn yellow"
+     onclick="openContainer(1000)">
+     1000
+    </button>
+   </div>
+
+   <div class="mini">
+    📦 Огромный
+    <br><br>
+    <button class="btn yellow"
+     onclick="openContainer(5000)">
+     5000
+    </button>
+   </div>
+
+  </div>
+
+  <div class="msg" id="auctionMsg">
+   Что внутри?
+  </div>
+  `
+ );
+
+}
+
+
+function openContainer(price){
+
+ if(!spend(price))return;
+
+ let items=[
+  ["🗑️ Мусор",0],
+  ["📱 Телефоны",price*.7],
+  ["🔧 Инструменты",price*1.2],
+  ["💻 Электроника",price*1.8],
+  ["🚗 Автозапчасти",price*2.5],
+  ["💎 Редкий предмет",price*5]
+ ];
+
+ let item=
+ items[Math.floor(Math.random()*items.length)];
+
+ SAVE.money+=Math.floor(item[1]);
+
+ save();
+
+ auctionMsg.innerHTML=
+ `📦 ${item[0]}<br>
+ Стоимость: ${Math.floor(item[1])}`;
+
+}
+
+
+/* =========================================================
+   SHOP
+========================================================= */
+
+function gameShop(){
+
+ titleGame(
+  "🏪 Магазин",
+  `
+  <div class="shop">
+
+   <div class="mini">
+    🥤 Напиток
+    <br><br>
+    <button class="btn"
+     onclick="buy(50,'Напиток')">
+     50
+    </button>
+   </div>
+
+   <div class="mini">
+    🔧 Инструмент
+    <br><br>
+    <button class="btn"
+     onclick="buy(300,'Инструмент')">
+     300
+    </button>
+   </div>
+
+   <div class="mini">
+    💻 Компьютер
+    <br><br>
+    <button class="btn"
+     onclick="buy(3000,'Компьютер')">
+     3000
+    </button>
+   </div>
+
+  </div>
+
+  <div class="msg" id="shopMsg">
+   Выбери товар.
+  </div>
+  `
+ );
+
+}
+
+
+function buy(price,name){
+
+ if(spend(price)){
+
+  shopMsg.textContent=
+   `🛒 Куплено: ${name}`;
+
+ }
+
+}
+
+
+/* =========================================================
+   STOCK
+========================================================= */
+
+function gameStock(){
+
+ window.STOCK={
+  price:100
+ };
+
+ titleGame(
+  "📈 Биржа",
+  `
+  <div class="big">
+   📈 <span id="stockPrice">100</span>
+  </div>
+
+  <button class="btn"
+   onclick="stockBuy()">
+   💰 Купить
+  </button>
+
+  <button class="btn green"
+   onclick="stockSell()">
+   📈 Продать
+  </button>
+
+  <div class="msg" id="stockMsg">
+   Цена постоянно меняется.
+  </div>
+  `
+ );
+
+}
+
+
+function stockBuy(){
+
+ if(!spend(STOCK.price))return;
+
+ STOCK.owned=
+ (STOCK.owned||0)+1;
+
+ stockMsg.textContent=
+  "📈 Акция куплена.";
+
+}
+
+
+function stockSell(){
+
+ if(!STOCK.owned){
+
+  toast("Нет акций");
+  return;
+
+ }
+
+ STOCK.owned--;
+
+ reward(STOCK.price,8);
+
+}
+
+
+setInterval(()=>{
+
+ if(window.STOCK){
+
+  STOCK.price=
+   Math.max(
+    10,
+    STOCK.price+
+    Math.floor(Math.random()*41)-20
+   );
+
+  let e=document.getElementById("stockPrice");
+
+  if(e)e.textContent=STOCK.price;
+
+ }
+
+},2000);
+
+
+/* =========================================================
+   TREASURE
+========================================================= */
+
+function gameTreasure(){
+
+ let treasure=
+ Math.floor(Math.random()*25);
+
+ titleGame(
+  "💎 Сокровища",
+  `
+  <div class="farm"
+       id="treasureBoard"
+       style="
+       grid-template-columns:repeat(5,1fr)">
+  </div>
+
+  <div class="msg" id="treasureMsg">
+   Найди сундук.
+  </div>
+  `
+ );
+
+ for(let i=0;i<25;i++){
+
+  let d=document.createElement("div");
+
+  d.className="plot";
+
+  d.textContent="❔";
+
+  d.onclick=()=>{
+
+   if(i===treasure){
+
+    d.textContent="💎";
+
+    reward(1000,60);
+
+    treasureMsg.textContent=
+     "🏆 Сокровище найдено!";
+
+   }else{
+
+    d.textContent="🪨";
+
+   }
+
+  };
+
+  treasureBoard.appendChild(d);
+
+ }
+
+}
+
+
+/* =========================================================
+   CASINO
+========================================================= */
+
+function gameCasino(){
+
+ titleGame(
+  "🎰 Казино",
+  `
+  <div class="big">
+   🎰
+  </div>
+
+  <button class="btn yellow"
+   onclick="casinoRoll()">
+   🎰 Крутить за 100
+  </button>
+
+  <div class="msg" id="casinoMsg">
+   Испытай удачу.
+  </div>
+  `
+ );
+
+}
+
+
+function casinoRoll(){
+
+ if(!spend(100))return;
+
+ let a=Math.floor(Math.random()*7);
+ let b=Math.floor(Math.random()*7);
+ let c=Math.floor(Math.random()*7);
+
+ if(a===b&&b===c){
+
+  reward(1500,70);
+
+  casinoMsg.textContent=
+   `🎰 ${a} ${b} ${c} — ДЖЕКПОТ!`;
+
+ }else{
+
+  casinoMsg.textContent=
+   `🎰 ${a} ${b} ${c}`;
+
+ }
+
+}
+
+
+/* =========================================================
+   SNAKE
+========================================================= */
+
+function gameSnake(){
+
+ window.SNAKE={
+  x:5,
+  y:5,
+  foodX:2,
+  foodY:7,
+  score:0
+ };
+
+ titleGame(
+  "🐍 Змейка",
+  `
+  <div class="board"
+       id="snakeBoard"
+       style="
+       grid-template-columns:repeat(10,1fr);
+       max-width:420px">
+  </div>
+
+  <div class="msg">
+   Очки:
+   <b id="snakeScore">0</b>
+  </div>
+
+  <div class="actions">
+
+   <button class="btn"
+    onclick="snakeMove(0,-1)">
+    ⬆️
+   </button>
+
+   <button class="btn"
+    onclick="snakeMove(-1,0)">
+    ⬅️
+   </button>
+
+   <button class="btn"
+    onclick="snakeMove(1,0)">
+    ➡️
+   </button>
+
+   <button class="btn"
+    onclick="snakeMove(0,1)">
+    ⬇️
+   </button>
+
+  </div>
+  `
+ );
+
+ renderSnake();
+
+}
+
+
+function renderSnake(){
+
+ snakeBoard.innerHTML="";
+
+ for(let y=0;y<10;y++)
+ for(let x=0;x<10;x++){
+
+  let d=document.createElement("div");
+
+  d.className="cell";
+
+  if(x===SNAKE.x&&y===SNAKE.y)
+   d.textContent="🐍";
+
+  if(x===SNAKE.foodX&&y===SNAKE.foodY)
+   d.textContent="🍎";
+
+  snakeBoard.appendChild(d);
+
+ }
+
+}
+
+
+function snakeMove(dx,dy){
+
+ SNAKE.x+=dx;
+ SNAKE.y+=dy;
+
+ if(
+  SNAKE.x<0||
+  SNAKE.x>9||
+  SNAKE.y<0||
+  SNAKE.y>9
+ ){
+
+  snakeMsg=null;
+
+  toast("💥 Врезался");
+
+  return;
+
+ }
+
+ if(
+  SNAKE.x===SNAKE.foodX&&
+  SNAKE.y===SNAKE.foodY
+ ){
+
+  SNAKE.score++;
+
+  snakeScore.textContent=
+   SNAKE.score;
+
+  SNAKE.foodX=
+   Math.floor(Math.random()*10);
+
+  SNAKE.foodY=
+   Math.floor(Math.random()*10);
+
+  reward(20,2);
+
+ }
+
+ renderSnake();
+
+}
+
+
+/* =========================================================
+   BREAKOUT
+========================================================= */
+
+function gameBreakout(){
+
+ window.BR={
+  blocks:20,
+  score:0
+ };
+
+ titleGame(
+  "🧱 Арканоид",
+  `
+  <div class="farm"
+       id="breakBlocks"
+       style="
+       grid-template-columns:repeat(5,1fr)">
+  </div>
+
+  <button class="btn"
+   onclick="breakBlock()">
+   🏓 Удар
+  </button>
+
+  <div class="msg" id="breakMsg">
+   Блоков осталось: 20
+  </div>
+  `
+ );
+
+ renderBreak();
+
+}
+
+
+function renderBreak(){
+
+ breakBlocks.innerHTML="";
+
+ for(let i=0;i<BR.blocks;i++){
+
+  let d=document.createElement("div");
+
+  d.className="plot";
+
+  d.textContent="🧱";
+
+  breakBlocks.appendChild(d);
+
+ }
+
+}
+
+
+function breakBlock(){
+
+ if(BR.blocks<=0)return;
+
+ BR.blocks--;
+
+ BR.score++;
+
+ renderBreak();
+
+ breakMsg.textContent=
+  `💥 Разбито: ${BR.score}`;
+
+ if(BR.blocks===0){
+
+  reward(500,40);
+
+  breakMsg.textContent=
+   "🏆 Все блоки разбиты!";
+
+ }
+
+}
+
+
+/* =========================================================
+   FLAPPY
+========================================================= */
+
+function gameFlappy(){
+
+ window.FLAPPY={
+  y:50,
+  score:0
+ };
+
+ titleGame(
+  "🐤 Птица",
+  `
+  <div class="targetArea"
+       id="flappyArea">
+
+   <div id="bird"
+        style="
+        position:absolute;
+        left:45%;
+        top:50%;
+        font-size:45px">
+    🐤
+   </div>
+
+  </div>
+
+  <button class="btn"
+   onclick="flap()">
+   🪽 Прыгнуть
+  </button>
+
+  <div class="msg" id="flapMsg">
+   Пролети как можно дальше.
+  </div>
+  `
+ );
+
+}
+
+
+function flap(){
+
+ FLAPPY.score++;
+
+ FLAPPY.y=
+  Math.max(
+   5,
+   Math.min(
+    90,
+    FLAPPY.y+(Math.random()*30-15)
+   )
+  );
+
+ bird.style.top=
+  FLAPPY.y+"%";
+
+ flapMsg.textContent=
+  `🏆 Дистанция: ${FLAPPY.score}`;
+
+ if(FLAPPY.score%10===0)
+  reward(100,10);
+
+}
+
+
+/* =========================================================
+   RUNNER
+========================================================= */
+
+function gameRunner(){
+
+ window.RUN=0;
+
+ titleGame(
+  "🏃 Раннер",
+  `
+  <div class="big">
+   ${"🏃"}
+  </div>
+
+  <button class="btn"
+   onclick="runJump()">
+   ⬆️ Прыжок
+  </button>
+
+  <div class="msg" id="runMsg">
+   Дистанция: 0
+  </div>
+  `
+ );
+
+}
+
+
+function runJump(){
+
+ RUN++;
+
+ runMsg.textContent=
+  `🏃 Дистанция: ${RUN*10} м`;
+
+ if(RUN%10===0)
+  reward(80,8);
+
+}
+
+
+/* =========================================================
+   REACTION
+========================================================= */
+
+function gameReaction(){
+
+ titleGame(
+  "⚡ Реакция",
+  `
+  <button class="btn"
+   id="reactionButton"
+   onclick="reactionClick()">
+   ЖДИ...
+  </button>
+
+  <div class="msg" id="reactionMsg">
+   Нажми после изменения кнопки.
+  </div>
+  `
+ );
+
+ setTimeout(()=>{
+
+  reactionButton.textContent=
+   "⚡ НАЖМИ!";
+
+  reactionButton.style.background=
+   "#16874d";
+
+  window.reactionStart=performance.now();
+
+ },1000+Math.random()*3000);
+
+}
+
+
+function reactionClick(){
+
+ if(!window.reactionStart){
+
+  toast("❌ Слишком рано");
+  return;
+
+ }
+
+ let ms=
+ Math.floor(
+  performance.now()-
+  reactionStart
+ );
+
+ reward(
+  Math.max(10,500-ms),
+  10
+ );
+
+ reactionMsg.textContent=
+  `⚡ ${ms} мс`;
+
+ window.reactionStart=null;
+
+}
+
+
+/* =========================================================
+   CLICKER
+========================================================= */
+
+function gameClicker(){
+
+ titleGame(
+  "👆 Кликер",
+  `
+  <div class="big">
+   💰 <span id="clickMoney">
+    ${SAVE.clicks}
+   </span>
+  </div>
+
+  <button class="btn"
+   onclick="clickerClick()">
+   👆 КЛИК
+  </button>
+
+  <button class="btn yellow"
+   onclick="upgradeClicker()">
+   ⬆️ Улучшить
+  </button>
+
+  <div class="msg" id="clickMsg">
+   Сила клика: ${SAVE.clickPower}
+  </div>
+  `
+ );
+
+}
+
+
+function clickerClick(){
+
+ SAVE.clicks+=SAVE.clickPower;
+
+ SAVE.money+=SAVE.clickPower;
+
+ clickMoney.textContent=
+  SAVE.clicks;
+
+ save();
+
+}
+
+
+function upgradeClicker(){
+
+ let cost=
+  500*SAVE.clickPower;
+
+ if(!spend(cost))return;
+
+ SAVE.clickPower++;
+
+ clickMsg.textContent=
+  `Сила клика: ${SAVE.clickPower}`;
+
+ save();
+
+}
+
+
+/* =========================================================
+   PLATFORM
+========================================================= */
+
+function gamePlatform(){
+
+ window.PLAT={
+  x:1,
+  y:0
+ };
+
+ titleGame(
+  "🦘 Платформер",
+  `
+  <div class="targetArea"
+       id="platformArea">
+
+   <div id="player"
+        style="
+        position:absolute;
+        left:10%;
+        bottom:15%;
+        font-size:45px">
+    🦘
+   </div>
+
+  </div>
+
+  <div class="actions">
+
+   <button class="btn"
+    onclick="platformMove(-10)">
+    ⬅️
+   </button>
+
+   <button class="btn"
+    onclick="platformJump()">
+    ⬆️
+   </button>
+
+   <button class="btn"
+    onclick="platformMove(10)">
+    ➡️
+   </button>
+
+  </div>
+
+  <div class="msg" id="platformMsg">
+   Доберись до правого края.
+  </div>
+  `
+ );
+
+}
+
+
+function platformMove(n){
+
+ PLAT.x+=n;
+
+ PLAT.x=
+ Math.max(
+  0,
+  Math.min(90,PLAT.x)
+ );
+
+ player.style.left=
+  PLAT.x+"%";
+
+ if(PLAT.x>=85){
+
+  reward(500,40);
+
+  platformMsg.textContent=
+   "🏆 Уровень пройден!";
+
+ }
+
+}
+
+
+function platformJump(){
+
+ player.style.bottom="55%";
+
+ setTimeout(()=>{
+  player.style.bottom="15%";
+ },350);
+
+}
+
+
+/* =========================================================
+   BUSINESS
+========================================================= */
+
+function gameBusiness(){
+
+ SAVE.business=SAVE.business||0;
+
+ titleGame(
+  "🏢 Бизнес",
+  `
+  <div class="big">
+   🏢 Уровень ${SAVE.business}
+  </div>
+
+  <button class="btn"
+   onclick="upgradeBusiness()">
+   ⬆️ Улучшить
+  </button>
+
+  <button class="btn green"
+   onclick="collectBusiness()">
+   💰 Прибыль
+  </button>
+
+  <div class="msg" id="businessMsg">
+   Развивай компанию.
+  </div>
+  `
+ );
+
+}
+
+
+function upgradeBusiness(){
+
+ let cost=
+  1000+SAVE.business*1000;
+
+ if(!spend(cost))return;
+
+ SAVE.business++;
+
+ reward(0,50);
+
+ businessMsg.textContent=
+  `🏢 Бизнес теперь уровня ${SAVE.business}`;
+
+ save();
+
+}
+
+
+function collectBusiness(){
+
+ if(!SAVE.business){
+
+  toast("Сначала улучши бизнес");
+  return;
+
+ }
+
+ let income=
+  SAVE.business*350;
+
+ reward(income,15);
+
+ businessMsg.textContent=
+  `💰 Получено ${income}`;
+
+}
+
+
+/* =========================================================
+   CITY
+========================================================= */
+
+function gameCity(){
+
+ SAVE.city=SAVE.city||1;
+
+ titleGame(
+  "🏙️ Город",
+  `
+  <div class="big">
+   🏙️ Уровень ${SAVE.city}
+  </div>
+
+  <button class="btn"
+   onclick="upgradeCity()">
+   🏗️ Построить
+  </button>
+
+  <button class="btn green"
+   onclick="cityMoney()">
+   💰 Собрать доход
+  </button>
+
+  <div class="msg" id="cityGameMsg">
+   Развивай город.
+  </div>
+  `
+ );
+
+}
+
+
+function upgradeCity(){
+
+ let cost=
+  SAVE.city*1500;
+
+ if(!spend(cost))return;
+
+ SAVE.city++;
+
+ reward(0,40);
+
+ cityGameMsg.textContent=
+  `🏙️ Город уровня ${SAVE.city}`;
+
+ save();
+
+}
+
+
+function cityMoney(){
+
+ let m=SAVE.city*500;
+
+ reward(m,20);
+
+ cityGameMsg.textContent=
+  `💰 Город принёс ${m}`;
+
+}
+
+
+/* =========================================================
+   GENERATOR
+========================================================= */
+
+const GEN_GENRES=[
+
+"Выживание",
+"Ферма",
+"Гонки",
+"Космос",
+"Зомби",
+"Пираты",
+"Средневековье",
+"Город",
+"Остров",
+"Шахта",
+"Рыбалка",
+"Торговля",
+"Детектив",
+"Тактика",
+"Арена",
+"Строительство",
+"Грузовики",
+"Охота",
+"Роботы",
+"Киберпанк",
+"Постапокалипсис",
+"Море",
+"Океан",
+"Снег",
+"Пустыня",
+"Лес"
+
+];
+
+const GEN_MAPS=[
+
+"огромный остров",
+"город-миллионник",
+"заброшенная деревня",
+"порт",
+"лес",
+"пустыня",
+"архипелаг",
+"горы",
+"подземный комплекс",
+"огромная ферма",
+"метро",
+"военная база",
+"неизвестная планета",
+"старый завод",
+"снежная станция"
+
+];
+
+const GEN_WEATHER=[
+
+"☀️ солнечно",
+"🌧️ дождь",
+"❄️ снег",
+"🌫️ туман",
+"🌩️ гроза",
+"💨 сильный ветер",
+"🌪️ шторм",
+"☢️ аномальная погода"
+
+];
+
+const GEN_GOALS=[
+
+"заработай 10000 монет",
+"найди древний артефакт",
+"построй базу",
+"победи босса",
+"продержись 30 дней",
+"найди выход",
+"собери редкие ресурсы",
+"выиграй чемпионат",
+"захвати карту",
+"спаси поселение",
+"найди секретную локацию",
+"доставь груз",
+"стань самым богатым",
+"исследуй весь мир"
+
+];
+
+
+function generator(){
+
+ let genre=
+ GEN_GENRES[
+  Math.floor(
+   Math.random()*GEN_GENRES.length
+  )
+ ];
+
+ let map=
+ GEN_MAPS[
+  Math.floor(
+   Math.random()*GEN_MAPS.length
+  )
+ ];
+
+ let weather=
+ GEN_WEATHER[
+  Math.floor(
+   Math.random()*GEN_WEATHER.length
+  )
+ ];
+
+ let goal=
+ GEN_GOALS[
+  Math.floor(
+   Math.random()*GEN_GOALS.length
+  )
+ ];
+
+ let difficulty=
+ [
+  "Лёгкая",
+  "Средняя",
+  "Высокая",
+  "Безумная",
+  "Хардкор"
+ ][Math.floor(Math.random()*5)];
+
+ let seed=
+ Math.floor(Math.random()*999999999);
+
+ titleGame(
+  "🌌 Генератор миров",
+  `
+  <div class="world">
+
+   <div class="worldIcon">
+    🌌
+   </div>
+
+   <div class="worldTitle">
+    ${genre}
+   </div>
+
+   <div class="msg">
+
+    🗺️ Карта:
+    <b>${map}</b>
+
+    <br><br>
+
+    🌦️ Погода:
+    <b>${weather}</b>
+
+    <br><br>
+
+    🎯 Цель:
+    <b>${goal}</b>
+
+    <br><br>
+
+    ⚔️ Сложность:
+    <b>${difficulty}</b>
+
+    <br><br>
+
+    🔢 Seed:
+    <b>${seed}</b>
+
+   </div>
+
+   <div class="actions"
+        style="justify-content:center">
+
+    <button class="btn"
+     onclick="generator()">
+     🎲 Новый мир
+    </button>
+
+    <button class="btn green"
+     onclick="startGeneratedWorld('${genre}','${map}')">
+     ▶ Начать
+    </button>
+
+   </div>
+
+  </div>
+  `
+ );
+
+}
+
+
+function startGeneratedWorld(genre,map){
+
+ reward(100,10);
+
+ titleGame(
+  `🌌 ${genre}`,
+  `
+  <div class="big">
+   🌍
+  </div>
+
+  <p>
+   Ты начал процедурно созданный мир:
+   <b>${map}</b>.
+  </p>
+
+  <div class="actions">
+
+   <button class="btn"
+    onclick="randomEvent()">
+    🎲 Событие
+   </button>
+
+   <button class="btn green"
+    onclick="exploreWorld()">
+    🧭 Исследовать
+   </button>
+
+   <button class="btn yellow"
+    onclick="lootWorld()">
+    📦 Искать ресурсы
+   </button>
+
+  </div>
+
+  <div class="msg" id="worldMsg">
+   Мир ждёт.
+  </div>
+  `
+ );
+
+}
+
+
+function randomEvent(){
+
+ let events=[
+
+ "🌧️ Начался сильный дождь.",
+ "🐺 На тебя напали животные.",
+ "💎 Ты нашёл редкий ресурс.",
+ "🏚️ Обнаружено заброшенное здание.",
+ "🚗 Найден старый автомобиль.",
+ "🗺️ Найдена новая территория.",
+ "🤖 Встречен неизвестный робот.",
+ "📦 Найден контейнер.",
+ "🌲 Ты обнаружил лес.",
+ "⚠️ Произошла аномалия."
+
+ ];
+
+ let e=
+ events[Math.floor(Math.random()*events.length)];
+
+ worldMsg.textContent=e;
+
+ if(Math.random()<.4)
+  reward(100+Math.floor(Math.random()*300),10);
+
+}
+
+
+function exploreWorld(){
+
+ reward(80,8);
+
+ worldMsg.textContent=
+ "🧭 Ты исследовал новую область.";
+
+}
+
+
+function lootWorld(){
+
+ let m=
+ 100+
+ Math.floor(Math.random()*700);
+
+ reward(m,12);
+
+ worldMsg.textContent=
+ `📦 Найдено ресурсов на ${m} монет.`;
+
+}
+
+
+/* =========================================================
+   RANDOM GAME
+========================================================= */
+
+function randomGame(){
+
+ let g=
+ GAMES[
+  Math.floor(
+   Math.random()*GAMES.length
+  )
+ ];
+
+ openGame(g[0]);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetSave(){
+
+ if(confirm(
+  "Сбросить весь прогресс?"
+ )){
+
+  localStorage.removeItem(
+   "ULTIMATE_GAME_HUB"
+  );
+
+  location.reload();
+
+ }
+
+}
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+ "keydown",
+ e=>{
+
+  if(e.key==="Escape")
+   home();
+
+  if(
+   e.code==="Space" &&
+   document
+   .getElementById("gameContent")
+   .innerText
+   .includes("Pocket Racing")
+  ){
+
+   e.preventDefault();
+
+   raceGo();
+
+  }
+
+ }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+updateUI();
+renderGames();
+
+</script>
+
+</body>
+</html>
